@@ -7,8 +7,8 @@ USE `pizza_restaurant`;
 -- create customer table
 CREATE TABLE IF NOT EXISTS `customer` (
   `customer_id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(256) DEFAULT NULL,
-  `phone_number` varchar(32) DEFAULT NULL,
+  `name` varchar(256) NOT NULL,
+  `phone_number` varchar(32) NOT NULL,
   PRIMARY KEY (`customer_id`)
 );
 
