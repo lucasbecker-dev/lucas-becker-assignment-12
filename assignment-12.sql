@@ -1,8 +1,8 @@
 -- generate database
-CREATE DATABASE IF NOT EXISTS `pizza_restaurant`;;
+CREATE DATABASE IF NOT EXISTS `pizza_restaurant`;
 
 -- create customer table
-CREATE TABLE IF NOT EXISTS `customer` (
+CREATE TABLE IF NOT EXISTS `pizza_restaurant`.`customer` (
   `customer_id` int NOT NULL AUTO_INCREMENT,
   `first_name` varchar(128) DEFAULT NULL,
   `last_name` varchar(128) DEFAULT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `customer` (
 );
 
 -- create order table which has a one-to-many relationship with the customer table
-CREATE TABLE IF NOT EXISTS `order` (
+CREATE TABLE IF NOT EXISTS `pizza_restaurant`.`order` (
   `order_id` int NOT NULL AUTO_INCREMENT,
   `customer_id` int NOT NULL,
   `date_time` datetime NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 );
 
 -- create pizza table
-CREATE TABLE IF NOT EXISTS `pizza` (
+CREATE TABLE IF NOT EXISTS `pizza_restaurant`.`pizza` (
   `pizza_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `price` decimal(4,2) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `pizza` (
 );
 
 -- create order_pizza JOIN table for many-to-many relationship between order and pizza tables
-CREATE TABLE IF NOT EXISTS `order_pizza` (
+CREATE TABLE IF NOT EXISTS `pizza_restaurant`.`order_pizza` (
   `order_id` int NOT NULL,
   `pizza_id` int NOT NULL,
   `count` int NOT NULL,
@@ -37,21 +37,43 @@ CREATE TABLE IF NOT EXISTS `order_pizza` (
   KEY `pizza_id_idx` (`pizza_id`),
   CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
   CONSTRAINT `pizza_id` FOREIGN KEY (`pizza_id`) REFERENCES `pizza` (`pizza_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 -- views for each table
-SELECT * FROM `customer`;
-SELECT * FROM `order`;
-SELECT * FROM `order_pizza`;
-SELECT * FROM `pizza`;
+SELECT * FROM `pizza_restaurant`.`customer`;
+SELECT * FROM `pizza_restaurant`.`order`;
+SELECT * FROM `pizza_restaurant`.`order_pizza`;
+SELECT * FROM `pizza_restaurant`.`pizza`;
 
 -- populate tables with data
-INSERT INTO `pizza_restaurant`.`order`
-(`order_id`,
-`customer_id`,
-`date_time`)
+INSERT INTO `pizza_restaurant`.`customer` (`first_name`, `last_name`, `phone_number`)
 VALUES
-(<{order_id: }>,
-<{customer_id: }>,
-<{date_time: }>);
+('Trevor', 'Page', '226-555-4982'),
+('John', 'Doe', '555-555-9498');
+
+INSERT INTO `pizza_restaurant`.`order` (`customer_id`, `date_time`)
+VALUES
+(1, '2023-09-10 09:47:00'),
+(2, '2023-09-10 13:20:00'),
+(1, '2023-09-10 09:47:00'),
+(2, '2023-10-10 10:37:00');
+
+INSERT INTO `pizza_restaurant`.`pizza` (`name`, `price`)
+VALUES
+('Pepperoni & Cheese', 7.99),
+('Vegetarian', 9.99),
+('Meat Lovers', 14.99),
+('Hawaiian', 12.99);
+
+INSERT INTO `pizza_restaurant`.`order_pizza` (`order_id`, `pizza_id`, `count`) 
+VALUES
+(1, 1, 1),
+(1, 3, 1),
+(2, 2, 1),
+(2, 3, 2),
+(3, 3, 1),
+(3, 4, 1),
+(4, 2, 3),
+(4, 4, 1);
+
 
