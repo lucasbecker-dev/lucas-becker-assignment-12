@@ -93,7 +93,7 @@ GROUP BY c.`customer_id`;
 -- Q5: Modify the query from Q4 to separate the orders not just by customer, but
 -- also by date so they can see how much each customer is ordering on which date.
 SELECT c.`name` AS 'Customer', 
-	DATE(o.`date_time`) as 'Date',
+	DATE(o.`date_time`) as 'Date/Time',
 	SUM(p.price * op.count) AS 'Total'
 FROM `customer` c
 JOIN `order` o ON c.`customer_id` = o.`customer_id`
